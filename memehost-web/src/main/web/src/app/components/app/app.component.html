@@ -1,0 +1,21 @@
+<div id="header" class="site-header">
+    <div><span>OCT MEME</span></div>
+</div>
+
+<div id="main">
+
+    <div id="upload" class="container">
+        <input #fileInput type="file" [attr.disabled]="uploadProgressPercentage !== 0 ? '' : null" (change)="onUpload($event)" >
+        <div id="progress" [ngClass]="{'hidden': uploadProgressPercentage === 0}">
+            <div id="progress-bar" [style.width.%]="uploadProgressPercentage"></div>
+        </div>
+    </div>
+
+    <modal id="upload-result-modal">
+        <span>{{uploadResult}}</span>
+    </modal>
+
+    <div class="container">
+    </div>
+
+</div>
