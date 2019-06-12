@@ -19,6 +19,7 @@ export class AppComponent {
     }
 
     onUpload(event) {
+        this.uploadProgressPercentage = 1;
 
         let selectedFile: File = event.target.files[0]
         const fd = new FormData();
@@ -39,15 +40,29 @@ export class AppComponent {
                 if (event.type === HttpEventType.UploadProgress) {
                     this.uploadProgressPercentage = Math.round(event.loaded / event.total * 100);
                 } else if (event.type === HttpEventType.Response) {
-                    this.uploadResult = event.statusText;
-                    this.modalService.open("upload-result-modal");
-                    this.uploadProgressPercentage = 0;
-                    this.resetFileInput();
+                    this.showModal("Upload complete", event.statusText);
+                    this.resetUpload();
                 }
-            });
+            },
+            error => {
+                this.showModal("Error", error.message);
+                this.resetUpload();
+            }
+        );
     }
 
-    resetFileInput() {
+    showModal(title: string, message: string) {
+        this.uploadResult = '<h1>' + title + '</h1>' + message;
+        this.modalService.open("upload-result-modal");
+    }
+
+    resetUpload() {
+        this.uploadProgressPercentage = 0;
         this.myInputVariable.nativeElement.value = "";
     }
+
+    isUploadInProgress(): boolean {
+        return this.uploadProgressPercentage !== 0;
+    }
+
 }

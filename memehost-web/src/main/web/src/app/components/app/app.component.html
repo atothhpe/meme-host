@@ -6,8 +6,11 @@
 
     <div id="upload" class="container">
         <input #fileInput type="file" [attr.disabled]="uploadProgressPercentage !== 0 ? '' : null" (change)="onUpload($event)" >
-        <div id="progress" [ngClass]="{'hidden': uploadProgressPercentage === 0}">
-            <div id="progress-bar" [style.width.%]="uploadProgressPercentage"></div>
+        <div id="progress" [ngClass]="{'animated-progress': isUploadInProgress()}">
+            <div id="progress-bar"
+                 [style.width.%]="uploadProgressPercentage"
+                 [ngClass]="{'progress-bar-border': isUploadInProgress()}"
+            ></div>
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-#header{
+#header {
     background: #0079ef;
     color: #ffffff;
     height: 56px;
@@ -12,6 +12,7 @@
     width: 57px;
     background: #014272;
 }
+
 #header span {
     display: inline-block;
     vertical-align: middle;
@@ -34,20 +35,48 @@
     bottom: 0;
     background: #eeeeee;
 }
+
+.animated-progress {
+    background: repeating-linear-gradient(
+            -45deg,
+            #cccccc,
+            #cccccc 11px,
+            #eee 10px,
+            #eee 20px /* determines size */
+    ) !important;
+    background-size: 25px 25px;
+    animation: move .5s linear infinite;
+}
+
+@keyframes move {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 25px 0;
+    }
+}
+
 #progress-bar {
     height: 10px;
     background: #0079EF;
+
+}
+
+.progress-bar-border {
+    border-right: 2px solid #014272;
 }
 
 button {
     background: none;
     text-align: center;
 }
+
 button:hover {
     cursor: pointer;
 }
 
-#main{
+#main {
     height: 100%;
     padding: 10px;
 }
