@@ -4,11 +4,13 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './components/app/app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ModalComponent} from "./components/modal/modal.component";
+import {FileUploadComponent} from "./components/fileUpload/file-upload.component";
 
 @NgModule({
     declarations: [
         AppComponent,
-        ModalComponent
+        ModalComponent,
+        FileUploadComponent
     ],
     imports: [
         BrowserModule,

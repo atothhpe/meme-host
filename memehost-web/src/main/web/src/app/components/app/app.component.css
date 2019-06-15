@@ -19,70 +19,7 @@
     line-height: normal;
 }
 
-#upload {
-    position: relative;
-}
-
-#upload input {
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-#progress {
-    height: 10px;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    background: #eeeeee;
-}
-
-.animated-progress {
-    background: repeating-linear-gradient(
-            -45deg,
-            #cccccc,
-            #cccccc 11px,
-            #eee 10px,
-            #eee 20px /* determines size */
-    ) !important;
-    background-size: 25px 25px;
-    animation: move .5s linear infinite;
-}
-
-@keyframes move {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 25px 0;
-    }
-}
-
-#progress-bar {
-    height: 10px;
-    background: #0079EF;
-
-}
-
-.progress-bar-border {
-    border-right: 2px solid #014272;
-}
-
-button {
-    background: none;
-    text-align: center;
-}
-
-button:hover {
-    cursor: pointer;
-}
-
 #main {
     height: 100%;
     padding: 10px;
-}
-
-.container {
-    background: #ffffff;
-    margin: 0 0 10px 0;
-    border: 1px solid #dddddd;
 }
