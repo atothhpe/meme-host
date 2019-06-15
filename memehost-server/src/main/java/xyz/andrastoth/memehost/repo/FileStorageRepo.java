@@ -46,7 +46,7 @@ public class FileStorageRepo {
 
         try {
             Thumbnails.of(inputStream)
-                    .size(64, 64)
+                    .size(600, 600)
                     .outputFormat("jpg")
                     .toFile(targetFile);
 
@@ -68,6 +68,15 @@ public class FileStorageRepo {
 
     public boolean deleteTempFile(File file) {
         return file.delete();
+    }
+
+    public boolean deleteFile(String fileName) {
+        File targetFile = new File(FILE_STORAGE_PATH + fileName);
+        if(targetFile.exists()) {
+            return targetFile.delete();
+        } else {
+            return false;
+        }
     }
 
 }

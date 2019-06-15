@@ -29,9 +29,19 @@ public class FileResource {
         return fileService.getAllFilesMetadata();
     }
 
-    @GetMapping("/metadata/{storageName}")
+    @PostMapping("/upload")
+    public FileMetadata uploadFile(@RequestParam("file") MultipartFile file) {
+        return fileService.saveFile(getInputStream(file), file.getOriginalFilename());
+    }
+
+    @DeleteMapping("/{storageFileName}")
+    public void deleteFile(@PathVariable String storageFileName) {
+        fileService.deleteFileByStorageName(storageFileName);
+    }
+
+    @GetMapping("/{storageName}")
     public FileMetadata getFileMetadata(@PathVariable("storageName") String storageName) {
-        FileMetadata metadata = fileService.getFileMetadaByStorageName(storageName);
+        FileMetadata metadata = fileService.getFileMetadataByStorageName(storageName);
 
         if(metadata == null) {
             throw new ResourceNotFoundException();
@@ -40,20 +50,19 @@ public class FileResource {
         }
     }
 
-    @PostMapping("/upload")
-    public FileMetadata uploadFile(@RequestParam("file") MultipartFile file) {
-        return fileService.saveFile(getInputStream(file), file.getOriginalFilename());
-    }
-
-    @RequestMapping(value = "/download/{storageFileName}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> downloadStuff(@PathVariable String storageFileName) throws IOException {
-        FileMetadata fileMetadata = fileService.getFileMetadaByStorageName(storageFileName);
+    @RequestMapping(value = "/{storageFileName}/data", method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String storageFileName) throws IOException {
+        FileMetadata fileMetadata = fileService.getFileMetadataByStorageName(storageFileName);
         File file = fileService.getFileByStorageFileName(storageFileName);
+
+        if(fileMetadata == null || file == null || !file.exists()) {
+            throw new ResourceNotFoundException();
+        }
 
         HttpHeaders respHeaders = new HttpHeaders();
         respHeaders.setContentType(MediaType.valueOf(fileMetadata.getMimeType()));
 
-        respHeaders.setContentLength(fileMetadata.getSize());
+        respHeaders.setContentLength(file.length());
         respHeaders.setContentDispositionFormData("attachment", fileMetadata.getName());
 
         InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(file));
@@ -67,7 +76,5 @@ public class FileResource {
             throw new RuntimeException(e);
         }
     }
-
-
 
 }

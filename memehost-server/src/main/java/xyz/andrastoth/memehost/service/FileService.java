@@ -27,8 +27,13 @@ public class FileService {
 
     private static final Tika tika = new Tika();
 
-    public FileMetadata getFileMetadaByStorageName(String storageName) {
+    public FileMetadata getFileMetadataByStorageName(String storageName) {
         return fileMetadataRepo.findById(storageName).orElse(null);
+    }
+
+    public void deleteFileByStorageName(String storageName) {
+        fileMetadataRepo.deleteById(storageName);
+        fileStorageRepo.deleteFile(storageName);
     }
 
     public List<FileMetadata> getAllFilesMetadata() {
@@ -48,8 +53,8 @@ public class FileService {
         fileMetadata.setMimeType(mimeType);
 
         if (mimeType.contains("image")) {
-            String storageThumbnailName = generateThumbnail(tempFile);
-            fileMetadata.setStorageThumbnailName(storageThumbnailName);
+            FileMetadata thumbnailFileMetadata = createThumbnailFile(tempFile);
+            fileMetadata.setStorageThumbnailName(thumbnailFileMetadata.getStorageFileName());
         }
 
         String storageFileName = saveFileToStorage(tempFile, fileName);
@@ -62,6 +67,19 @@ public class FileService {
         fileStorageRepo.deleteTempFile(tempFile);
 
         return fileMetadata;
+    }
+
+    private FileMetadata createThumbnailFile(File file) {
+        FileMetadata thumbnailFileMetadata = new FileMetadata();
+        thumbnailFileMetadata.setStorageThumbnailName(null);
+
+        String storageThumbnailName = generateThumbnail(file);
+        thumbnailFileMetadata.setStorageFileName(storageThumbnailName);
+        thumbnailFileMetadata.setMimeType("image/jpg");
+
+        fileMetadataRepo.save(thumbnailFileMetadata);
+
+        return thumbnailFileMetadata;
     }
 
     public File getFileByStorageFileName(String storageFileName) {

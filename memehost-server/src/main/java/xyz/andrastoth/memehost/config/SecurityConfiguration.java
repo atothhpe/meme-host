@@ -21,7 +21,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/")
+                .antMatchers("/**")
                 .permitAll();
 
         httpSecurity

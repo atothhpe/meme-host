@@ -1,0 +1,32 @@
+.box {
+    display: inline-block;
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+    border: 1px solid #eeeeee;
+    margin: 0 5px 0 0;
+}
+
+.box button {
+    border: 0;
+    background: inherit;
+}
+
+.box button :hover {
+    cursor: pointer;
+}
+
+.title {
+    white-space: nowrap; /*keep text on one line */
+    overflow: hidden;         /*prevent text from being shown outside the border */
+    text-overflow: ellipsis;  /*cut off text with an ellipsis*/
+}
+
+.image {
+    width: 100%;
+}
+
+#meme-container {
+    margin: 5px;
+}
+

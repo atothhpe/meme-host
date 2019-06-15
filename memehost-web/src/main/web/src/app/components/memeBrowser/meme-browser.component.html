@@ -1,0 +1,16 @@
+<div class="container">
+    <div id="meme-container">
+        <div *ngFor="let meta of fileMetadata" class="box">
+            <button style="float: left; margin-right: 5px" (click)="memeService.deleteMeme(meta)">
+                <img style="width: 16px" src="https://img.icons8.com/ios-glyphs/30/000000/close-window.png">
+            </button>
+            <div class="title">{{meta.name}}</div>
+            <img class="image" src="{{getImageLink(meta)}}">
+        </div>
+
+        <div *ngIf="fileMetadata || fileMetadata.length === 0">
+            <h2>No memes here :(</h2>
+        </div>
+
+    </div>
+</div>

@@ -1,6 +1,5 @@
-import {Component, ElementRef} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
-import {ViewChild} from '@angular/core';
 import {ModalService} from "../../services/ModalService";
 import {environment} from "../../../environments/environment";
 
@@ -25,7 +24,7 @@ export class FileUploadComponent {
     onUpload(event) {
         this.uploadProgressPercentage = 1;
 
-        let selectedFile: File = event.target.files[0]
+        let selectedFile: File = event.target.files[0];
         const fd = new FormData();
 
         fd.append('file', selectedFile, selectedFile.name);
@@ -35,7 +34,7 @@ export class FileUploadComponent {
         headers.append('Accept', 'application/json');
         headers.append('enctype', 'multipart/form-data');
 
-        this.http.post( environment.serverUrl + 'memes/upload', fd, {
+        this.http.post(environment.serverUrl + 'memes/upload', fd, {
             headers: headers,
             reportProgress: true,
             observe: 'events'
