@@ -1,7 +1,14 @@
 package xyz.andrastoth.memehost.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_file_metadata")
 public class FileMetadata {
 
+    @Id
     private String storageFileName;
     private String storageThumbnailName;
     private String name;

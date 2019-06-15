@@ -23,6 +23,11 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/")
                 .permitAll();
+
+        httpSecurity
+                .headers()
+                .frameOptions()
+                .disable();
     }
 
 }

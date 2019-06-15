@@ -27,11 +27,15 @@ public class FileService {
 
     private static final Tika tika = new Tika();
 
-    public List<FileMetadata> getAllFilesMetadata() {
-        List<FileMetadata> fileMetadataList = new ArrayList<>();
-        return fileMetadataList;
+    public FileMetadata getFileMetadaByStorageName(String storageName) {
+        return fileMetadataRepo.findById(storageName).orElse(null);
     }
 
+    public List<FileMetadata> getAllFilesMetadata() {
+        List<FileMetadata> fileMetadataList = new ArrayList<>();
+        fileMetadataRepo.findAll().forEach(fileMetadataList::add);
+        return fileMetadataList;
+    }
 
     public FileMetadata saveFile(InputStream inputStream, String fileName) {
         FileMetadata fileMetadata = new FileMetadata();
@@ -54,9 +58,16 @@ public class FileService {
         fileMetadata.setSize(tempFile.length());
         fileMetadata.setStorageFileName(storageFileName);
 
+        fileMetadataRepo.save(fileMetadata);
         fileStorageRepo.deleteTempFile(tempFile);
+
         return fileMetadata;
     }
+
+    public File getFileByStorageFileName(String storageFileName) {
+        return fileStorageRepo.readFileFromStorage(storageFileName);
+    }
+
 
     private String generateThumbnail(File file) {
         InputStream inputStream = null;
