@@ -1,10 +1,10 @@
 import {Component, ElementRef} from '@angular/core';
-import {HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import {ViewChild} from '@angular/core';
-import {ModalService} from "../../services/ModalService";
-import {MemeService} from "../../services/MemeService";
-import {FileMetadata} from "../../model/file-metadata";
-import {environment} from "../../../environments/environment";
+import {ModalService} from '../../services/ModalService';
+import {MemeService} from '../../services/MemeService';
+import {FileMetadata} from '../../model/file-metadata';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'meme-browser',
@@ -15,7 +15,7 @@ export class MemeBrowserComponent {
 
     private fileMetadata: FileMetadata[] = [];
 
-    private noImageUrl: string =  'https://semantic-ui.com/images/wireframe/white-image.png';
+    private noImageUrl =  'https://semantic-ui.com/images/wireframe/white-image.png';
     private memeService: MemeService;
 
     constructor(memeService: MemeService) {
@@ -30,8 +30,8 @@ export class MemeBrowserComponent {
     }
 
     getImageLink(fileMetadata: FileMetadata): string {
-        if(fileMetadata.mimeType.startsWith("image")) {
-            if(fileMetadata.storageThumbnailName) {
+        if (fileMetadata.mimeType.startsWith('image')) {
+            if (fileMetadata.storageThumbnailName) {
                 return environment.serverUrl + 'memes/' + fileMetadata.storageThumbnailName + '/data';
             }  else {
                 return environment.serverUrl + 'memes/' + fileMetadata.storageFileName + '/data';

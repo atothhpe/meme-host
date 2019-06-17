@@ -1,7 +1,4 @@
-import {Component, ElementRef} from '@angular/core';
-import {HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
-import {ViewChild} from '@angular/core';
-import {ModalService} from "../../services/ModalService";
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'app-root',
