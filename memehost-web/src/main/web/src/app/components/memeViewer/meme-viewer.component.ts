@@ -11,7 +11,7 @@ import {VgAPI} from 'videogular2/core';
 })
 export class MemeViewerComponent implements OnInit {
 
-    private meme: Meme;
+    meme: Meme;
 
     constructor(private route: ActivatedRoute, private memeService: MemeService) {
     }

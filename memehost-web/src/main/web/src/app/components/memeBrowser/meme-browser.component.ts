@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class MemeBrowserComponent {
 
-    private memes: Meme[] = [];
+    memes: Meme[] = [];
 
     constructor(private memeService: MemeService, private router: Router) {
         this.loadMemes();
