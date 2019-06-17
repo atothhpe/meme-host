@@ -1,15 +1,27 @@
 <div id="upload" class="container">
-    <input #fileInput type="file" [attr.disabled]="uploadProgressPercentage !== 0 ? '' : null"
-           (change)="onUpload($event)">
-    <div id="progress" [ngClass]="{'animated-progress': isUploadInProgress()}">
-        <div id="progress-bar"
-             [style.width.%]="uploadProgressPercentage"
-             [ngClass]="{'progress-bar-border': isUploadInProgress()}"
-        ></div>
-    </div>
-</div>
 
-<modal id="upload-result-modal">
-    <h2>{{uploadResultTitle}}</h2>
-    <p>{{uploadResultDetails}}</p>
-</modal>
+    <div id="buttons">
+        <button type="button" (click)="fileInput.click()" [disabled]="isUploadInProgress()">
+            <fa-icon [icon]="['fas', 'upload']"></fa-icon>
+            <input #fileInput type="file" (change)="uploadFile($event)" style="display:none;"/>
+        </button>
+
+        <span>{{uploadFileName}}</span>
+
+        <button type="button" (click)="cancelFileUpload()" [disabled]="!isUploadInProgress()">
+            <fa-icon [icon]="['fas', 'ban']"></fa-icon>
+        </button>
+    </div>
+
+    <div id="progress">
+        <div id="progress-bar" [ngClass]="{'animated-progress-bar': isUploadInProgress()}"
+             [style.width.%]="uploadProgressPercentage"
+             [ngClass]="{'progress-bar-border': isUploadInProgress()}"></div>
+    </div>
+
+    <modal id="upload-result-modal">
+        <h2>{{uploadResultTitle}}</h2>
+        <p>{{uploadResultDetails}}</p>
+    </modal>
+
+</div>

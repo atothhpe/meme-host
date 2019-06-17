@@ -1,16 +1,17 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {HttpClient, HttpEventType, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpEventType, HttpHeaders} from "@angular/common/http";
 import {ModalService} from "../../services/ModalService";
 import {environment} from "../../../environments/environment";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'file-upload',
     templateUrl: './file-upload.component.html',
-    styleUrls: ['./file-upload.component.css']
+    styleUrls: ['./file-upload.component.less']
 })
 export class FileUploadComponent {
 
-    @ViewChild('fileInput')
+    @ViewChild('fileInput', {static: false})
     myInputVariable: ElementRef;
 
     uploadProgressPercentage: number = 0;
@@ -18,23 +19,29 @@ export class FileUploadComponent {
     uploadResultTitle: string;
     uploadResultDetails: string;
 
+    subscription: Subscription;
+
+    noFileSelected: string = "No file selected...";
+    uploadFileName: string = this.noFileSelected;
+
     constructor(private http: HttpClient, private modalService: ModalService) {
     }
 
-    onUpload(event) {
-        this.uploadProgressPercentage = 1;
+    uploadFile(event) {
+        this.uploadProgressPercentage = .1;
 
         let selectedFile: File = event.target.files[0];
         const fd = new FormData();
-
         fd.append('file', selectedFile, selectedFile.name);
+
+        this.uploadFileName = "Uploading \"" + selectedFile.name + "\"";
 
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'multipart/form-data');
         headers.append('Accept', 'application/json');
         headers.append('enctype', 'multipart/form-data');
 
-        this.http.post(environment.serverUrl + 'memes/upload', fd, {
+        this.subscription = this.http.post(environment.serverUrl + 'memes/upload', fd, {
             headers: headers,
             reportProgress: true,
             observe: 'events'
@@ -43,15 +50,35 @@ export class FileUploadComponent {
                 if (event.type === HttpEventType.UploadProgress) {
                     this.uploadProgressPercentage = Math.round(event.loaded / event.total * 100);
                 } else if (event.type === HttpEventType.Response) {
-                    this.showModal("Upload complete", event.statusText);
+                    this.showModal("Upload complete", "");
                     this.resetUpload();
                 }
             },
             error => {
-                this.showModal("Error", error.message);
+
+                let errorMessage;
+
+                if (error instanceof HttpErrorResponse) {
+                    let httpErrorResponse = <HttpErrorResponse>error;
+
+                    if (httpErrorResponse.error["message"]) {
+                        errorMessage = httpErrorResponse.error["message"];
+                    } else {
+                        errorMessage = httpErrorResponse.message;
+                    }
+                } else {
+                    errorMessage = "Upload failed."
+                }
+
+                this.showModal("Error", errorMessage);
                 this.resetUpload();
             }
         );
+    }
+
+    cancelFileUpload() {
+        this.subscription.unsubscribe();
+        this.resetUpload();
     }
 
     showModal(title: string, details: string) {
@@ -61,6 +88,7 @@ export class FileUploadComponent {
     }
 
     resetUpload() {
+        this.uploadFileName = this.noFileSelected;
         this.uploadProgressPercentage = 0;
         this.myInputVariable.nativeElement.value = "";
     }

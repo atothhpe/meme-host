@@ -1,0 +1,84 @@
+@import "~src/colors";
+
+#upload {
+    position: relative;
+    height: 50px;
+}
+
+#upload input {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#buttons {
+    position: absolute;
+    margin-bottom: 10px;
+    top: 25%;
+    transform: translateY(-25%);
+}
+
+#buttons button, span {
+    margin: 0 0 0 5px;
+}
+
+button {
+    text-align: center;
+    background: @background;
+    border: 1px solid @border;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: @primary;
+    border: 1px solid @border-dark;
+}
+
+button:disabled {
+    cursor: not-allowed !important;
+}
+
+#progress {
+    height: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: #eeeeee;
+}
+
+.animated-progress-background {
+    background: repeating-linear-gradient(
+            -45deg,
+            #cccccc,
+            #cccccc 11px,
+            #eee 10px,
+            #eee 20px /* determines size */
+    ) !important;
+    background-size: 25px 25px;
+    animation: move .5s linear infinite;
+}
+
+.animated-progress-bar {
+    background: repeating-linear-gradient(
+            -45deg,
+            @primary-dark,
+            @primary-dark 11px,
+            @primary 10px,
+            @primary 20px /* determines size */
+    ) !important;
+    background-size: 25px 25px;
+    animation: move .5s linear infinite;
+    border-right: 3px solid @primary-dark;
+}
+
+@keyframes move {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 25px 0;
+    }
+}
+
+#progress-bar {
+    height: 10px;
+}
