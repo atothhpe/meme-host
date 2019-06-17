@@ -1,6 +1,5 @@
 export interface FileMetadata {
-    storageFileName: string;
-    storageThumbnailName?: string;
+    id: string;
     name: string;
     mimeType: string;
     size: number;

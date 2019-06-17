@@ -1,6 +1,5 @@
 package xyz.andrastoth.memehost.repo;
 
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
@@ -39,20 +38,6 @@ public class FileStorageRepo {
         }
 
         return file;
-    }
-
-    public void generateThumbnail(String fileName, InputStream inputStream){
-        File targetFile = new File(FILE_STORAGE_PATH + fileName);
-
-        try {
-            Thumbnails.of(inputStream)
-                    .size(600, 600)
-                    .outputFormat("jpg")
-                    .toFile(targetFile);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public File createTempFile(InputStream inputStream) {

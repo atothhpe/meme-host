@@ -1,19 +1,10 @@
 .box {
     display: inline-block;
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     padding: 10px;
     border: 1px solid #eeeeee;
     margin: 0 5px 0 0;
-}
-
-.box button {
-    border: 0;
-    background: inherit;
-}
-
-.box button :hover {
-    cursor: pointer;
 }
 
 .title {
@@ -22,11 +13,17 @@
     text-overflow: ellipsis;  /*cut off text with an ellipsis*/
 }
 
-.image {
-    width: 100%;
+.thumbnail-image {
+    height: 200px;
 }
 
 #meme-container {
     margin: 5px;
+}
+
+#no-memes {
+    text-align: center;
+    padding: 50px;
+    font-weight: bolder;
 }
 

@@ -9,26 +9,17 @@ import javax.persistence.Table;
 public class FileMetadata {
 
     @Id
-    private String storageFileName;
-    private String storageThumbnailName;
+    private String id;
     private String name;
     private String mimeType;
-    private long size;
+    private Long size;
 
-    public String getStorageFileName() {
-        return storageFileName;
+    public String getId() {
+        return id;
     }
 
-    public void setStorageFileName(String storageFileName) {
-        this.storageFileName = storageFileName;
-    }
-
-    public String getStorageThumbnailName() {
-        return storageThumbnailName;
-    }
-
-    public void setStorageThumbnailName(String storageThumbnailName) {
-        this.storageThumbnailName = storageThumbnailName;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -47,11 +38,11 @@ public class FileMetadata {
         this.mimeType = mimeType;
     }
 
-    public long getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 

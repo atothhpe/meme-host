@@ -9,7 +9,7 @@ import {MemeBrowserComponent} from './components/memeBrowser/meme-browser.compon
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faBan, faUpload} from '@fortawesome/free-solid-svg-icons';
+import {faBan, faTrash, faUpload} from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
     declarations: [
@@ -32,6 +32,7 @@ export class AppModule {
         // Add an icon to the library for convenient access in other components
         library.add(faBan);
         library.add(faUpload);
+        library.add(faTrash);
     }
 
 }

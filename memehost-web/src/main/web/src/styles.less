@@ -1,3 +1,5 @@
+@import "colors";
+
 /*RESET*/
 
 * {
@@ -83,4 +85,20 @@ body.modal-open {
     background: #ffffff;
     margin: 0 0 10px 0;
     border: 1px solid #dddddd;
+}
+
+button {
+    text-align: center;
+    background: @background;
+    border: 1px solid @border;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: @primary;
+    border: 1px solid @border-dark;
+}
+
+button:disabled {
+    cursor: not-allowed !important;
 }

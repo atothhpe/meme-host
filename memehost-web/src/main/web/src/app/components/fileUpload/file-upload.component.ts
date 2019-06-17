@@ -1,8 +1,9 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpEventType, HttpHeaders} from '@angular/common/http';
-import {ModalService} from '../../services/ModalService';
+import {ModalService} from '../../services/modal.service';
 import {environment} from '../../../environments/environment';
 import {Subscription} from 'rxjs';
+import {MemeService} from '../../services/meme.service';
 
 @Component({
     selector: 'file-upload',
@@ -24,7 +25,7 @@ export class FileUploadComponent {
     noFileSelected = 'No file selected...';
     uploadFileName: string = this.noFileSelected;
 
-    constructor(private http: HttpClient, private modalService: ModalService) {
+    constructor(private http: HttpClient, private modalService: ModalService, private memeService: MemeService) {
     }
 
     uploadFile(event) {
@@ -46,12 +47,13 @@ export class FileUploadComponent {
             reportProgress: true,
             observe: 'events'
         }).subscribe(
-            event => {
-                if (event.type === HttpEventType.UploadProgress) {
-                    this.uploadProgressPercentage = Math.round(event.loaded / event.total * 100);
-                } else if (event.type === HttpEventType.Response) {
+            next => {
+                if (next.type === HttpEventType.UploadProgress) {
+                    this.uploadProgressPercentage = Math.round(next.loaded / next.total * 100);
+                } else if (next.type === HttpEventType.Response) {
                     this.showModal('Upload complete', '');
                     this.resetUpload();
+                    this.memeService.memeUploadedSubject.next(null);
                 }
             },
             error => {
