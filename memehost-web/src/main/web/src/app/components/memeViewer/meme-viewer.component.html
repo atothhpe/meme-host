@@ -1,0 +1,30 @@
+<div id="notFound" *ngIf="meme === null">
+    <h1>404: <br/> Meme not found 😢</h1>
+</div>
+
+<img class= "meme" src="{{memeService.getMemeLink(meme)}}" *ngIf="meme != null && meme.fileMetadata.mimeType.startsWith('image')" />
+
+<div class= "meme" *ngIf="meme != null && meme.fileMetadata.mimeType.startsWith('video')">
+    <vg-player (onPlayerReady)="onPlayerReady($event);" (onMediaReady)="onMediaReady($event)">
+        <vg-overlay-play></vg-overlay-play>
+        <vg-buffering></vg-buffering>
+
+        <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        </vg-scrub-bar>
+
+        <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+            <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+            <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+
+        <video [vgMedia]="media" #media id="singleVideo" preload="auto" autoplay="true" crossorigin>
+            <source src="{{memeService.getMemeLink(meme)}}" type="{{meme.fileMetadata.mimeType}}">
+        </video>
+    </vg-player>
+</div>

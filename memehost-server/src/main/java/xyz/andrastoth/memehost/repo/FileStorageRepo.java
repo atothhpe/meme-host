@@ -40,8 +40,8 @@ public class FileStorageRepo {
         return file;
     }
 
-    public File createTempFile(InputStream inputStream) {
-        String fileName = TEMP_DIR + (!TEMP_DIR.endsWith("/") ? "/" : "") + UUID.randomUUID().toString();
+    public File createTempFile(InputStream inputStream, String tempFileName) {
+        String fileName = TEMP_DIR + (!TEMP_DIR.endsWith("/") ? "/" : "") + tempFileName;
         File targetFile = new File(fileName);
         try {
             FileUtils.copyInputStreamToFile(inputStream, targetFile);

@@ -21,6 +21,8 @@ import java.util.List;
 @Service
 public class MemeService {
 
+    private static final Tika tika = new Tika();
+
     @Autowired
     private FileStorageRepo fileStorageRepo;
 
@@ -28,9 +30,10 @@ public class MemeService {
     private FileMetadataRepo fileMetadataRepo;
 
     @Autowired
-    private MemeRepo memeRepo;
+    private ThumbnailService thumbnailService;
 
-    private static final Tika tika = new Tika();
+    @Autowired
+    private MemeRepo memeRepo;
 
     public Meme getMemeById(String id) {
         return memeRepo.findById(id).orElse(null);
@@ -57,7 +60,6 @@ public class MemeService {
 
         if(meme != null && meme.getThumbnailFileMetadata() != null) {
             FileMetadata thumbnailMetadata = meme.getThumbnailFileMetadata();
-            fileMetadataRepo.deleteById(thumbnailMetadata.getId());
             fileStorageRepo.deleteFile(thumbnailMetadata.getId());
         }
 
@@ -73,28 +75,31 @@ public class MemeService {
 
     public Meme saveMeme(InputStream inputStream, String fileName) {
 
-        FileMetadata fileMetadata = new FileMetadata();
-        File tempFile = fileStorageRepo.createTempFile(inputStream);
+        FileMetadata memeFileMetadata = new FileMetadata();
+        Meme meme = new Meme();
+
+        File tempFile = fileStorageRepo.createTempFile(inputStream, fileName);
+
+        String id = saveFileToStorage(tempFile, fileName);
+        memeFileMetadata.setId(id);
+        meme.setId(id);
+        memeFileMetadata.setName(fileName);
+        memeFileMetadata.setSize(tempFile.length());
 
         String mimeType = determineDataMimeType(tempFile);
-
         if (mimeType == null) {
             fileStorageRepo.deleteTempFile(tempFile);
             throw new UnsupportedMimeTypeException(mimeType);
         }
-        fileMetadata.setMimeType(mimeType);
+        memeFileMetadata.setMimeType(mimeType);
 
-        String id = saveFileToStorage(tempFile, fileName);
-        fileMetadata.setId(id);
-        fileMetadata.setName(fileName);
-        fileMetadata.setSize(tempFile.length());
+        FileMetadata thumbnailFileMetadata = thumbnailService.createThumbnail(tempFile, mimeType);
+        meme.setThumbnailFileMetadata(thumbnailFileMetadata);
 
-        fileMetadata = fileMetadataRepo.save(fileMetadata);
+        memeFileMetadata = fileMetadataRepo.save(memeFileMetadata);
         fileStorageRepo.deleteTempFile(tempFile);
 
-        Meme meme = new Meme();
-        meme.setId(id);
-        meme.setFileMetadata(fileMetadata);
+        meme.setFileMetadata(memeFileMetadata);
         return memeRepo.save(meme);
     }
 
@@ -128,7 +133,7 @@ public class MemeService {
         try {
             inputStream = FileUtils.openInputStream(file);
 
-            return tika.detect(inputStream);
+            return tika.detect(file.getName());
         } catch (IOException e) {
 
             return null;

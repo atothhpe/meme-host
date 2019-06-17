@@ -1,19 +1,18 @@
 import {Component} from '@angular/core';
 import {MemeService} from '../../services/meme.service';
 import {Meme} from '../../model/meme';
-import {environment} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'meme-browser',
     templateUrl: './meme-browser.component.html',
-    styleUrls: ['./meme-browser.component.css']
+    styleUrls: ['./meme-browser.component.less']
 })
 export class MemeBrowserComponent {
 
-    private readonly noImageUrl =  'https://semantic-ui.com/images/wireframe/white-image.png';
     private memes: Meme[] = [];
 
-    constructor(private memeService: MemeService) {
+    constructor(private memeService: MemeService, private router: Router) {
         this.loadMemes();
         memeService.memeUploadedSubject.asObservable().subscribe(() => {
             this.loadMemes();
@@ -22,7 +21,7 @@ export class MemeBrowserComponent {
 
     loadMemes() {
         this.memeService
-            .getAllFileMetadata()
+            .getAllMemes()
             .subscribe((data: Meme[]) => this.memes = data);
     }
 
@@ -34,12 +33,8 @@ export class MemeBrowserComponent {
             });
     }
 
-    getThumbnailLink(meme: Meme): string {
-        if (meme.thumbnailFileMetadata) {
-            return environment.serverUrl + 'memes/' + meme.thumbnailFileMetadata.id + '/thumbnailData';
-        } else {
-            return this.noImageUrl;
-        }
+    memeClicked(meme: Meme) {
+        this.router.navigate(['viewMeme', meme.id]);
     }
 
 }

@@ -1,9 +1,11 @@
+@import "~src/colors";
+
 .box {
     display: inline-block;
     width: 250px;
     height: 250px;
-    padding: 10px;
-    border: 1px solid #eeeeee;
+    padding: 5px;
+    border: 1px solid @border;
     margin: 0 5px 0 0;
 }
 
@@ -13,8 +15,21 @@
     text-overflow: ellipsis;  /*cut off text with an ellipsis*/
 }
 
+.thumbnail-image-container {
+    text-align: center;
+    height: 202px;
+    background-color: @background-dark;
+    border: 1px dashed @border;
+}
+
+.thumbnail-image-container:hover {
+    border: 1px solid @primary;
+    cursor: pointer;
+}
+
 .thumbnail-image {
     height: 200px;
+    margin: 0 auto;
 }
 
 #meme-container {

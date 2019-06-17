@@ -3,13 +3,17 @@
 
         <div *ngFor="let meme of memes" class="box">
 
-            <button style="float: left; margin-right: 5px" (click)="deleteMeme(meme)">
-                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-            </button>
+            <div style="height: 35px">
+                <button style="float: left; margin-right: 5px" (click)="deleteMeme(meme)">
+                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                </button>
 
-            <div class="title">{{meme.fileMetadata.name}}</div>
+                <div class="title">{{meme.fileMetadata.name}}</div>
+            </div>
 
-            <img class="thumbnail-image" src="{{getThumbnailLink(meme)}}">
+            <div class="thumbnail-image-container" (click)="memeClicked(meme)">
+                <img class="thumbnail-image" src="{{memeService.getThumbnailLink(meme)}}">
+            </div>
 
         </div>
 
