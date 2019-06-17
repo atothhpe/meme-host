@@ -13,7 +13,7 @@ import {environment} from "../../../environments/environment";
 })
 export class MemeBrowserComponent {
 
-    private fileMetadata: FileMetadata[];
+    private fileMetadata: FileMetadata[] = [];
 
     private noImageUrl: string =  'https://semantic-ui.com/images/wireframe/white-image.png';
     private memeService: MemeService;
